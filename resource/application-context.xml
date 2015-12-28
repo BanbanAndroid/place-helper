@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx" 
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+	    http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd
+		" default-lazy-init="false">
+		<!-- 为 spring context 引入属性文件 -->
+	<context:property-placeholder file-encoding="utf-8" system-properties-mode="OVERRIDE" location="classpath:config.properties" />
+    <!-- 配置数据源 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" >
+		<property name="driverClassName" value="${dataSource.driverClassName}"></property>
+		<property name="url" value="${dataSource.url}"></property>
+		<property name="username" value="${dataSource.username}"></property>
+		<property name="password" value="${dataSource.password}"></property>
+		<property name="initialSize" value="10"/>
+	</bean>
+	<!-- 配置EntityManagerFactory -->
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="com.place.helper.persistent.entity" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+		</property>
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.dialect">${sessionFactory.hibernate.dialect}</prop>
+				<prop key="hibernate.hbm2ddl.auto">${sessionFactory.hibernate.hbm2ddl.auto}</prop>
+				<prop key="hibernate.show_sql">${sessionFactory.hibernate.show_sql}</prop>
+				<prop key="hibernate.format_sql">${sessionFactory.hibernate.format_sql}</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 配置一个JPA事务管理器 -->
+	<bean id="jpatransactionManager" class="com.place.helper.manager.PersistentJpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+    <tx:annotation-driven transaction-manager="jpatransactionManager" proxy-target-class="true"/>
+    <context:component-scan base-package="com.place.helper"></context:component-scan>
+     
+     <!-- jpa repository 扫描包 -->
+	<jpa:repositories base-package="com.place.helper.persistent.repository" entity-manager-factory-ref="entityManagerFactory" transaction-manager-ref="jpatransactionManager" /> 
+</beans>
