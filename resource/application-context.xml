@@ -15,7 +15,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
 	    http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd
-		" default-lazy-init="false">
+		" default-lazy-init="true">
 		<!-- 为 spring context 引入属性文件 -->
 	<context:property-placeholder file-encoding="utf-8" system-properties-mode="OVERRIDE" location="classpath:config.properties" />
     <!-- 配置数据源 -->
