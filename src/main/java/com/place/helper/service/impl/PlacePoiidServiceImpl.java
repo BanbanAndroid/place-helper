@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.place.helper.persistent.entity.PlacePoiid;
 import com.place.helper.persistent.entity.PlacePois;
@@ -29,6 +28,7 @@ public class PlacePoiidServiceImpl implements PlacePoiidService {
 	private PlacePoiidRepository poiidRepository;
 	
 	public void synchronizePoiidAndPois() {
+		
 		List<PlacePois> placePoisz = new ArrayList<PlacePois>();
 		
 		placePoisz = poisRepository.findAll();
@@ -57,7 +57,7 @@ public class PlacePoiidServiceImpl implements PlacePoiidService {
 					province = district_info.getString("province");
 					city = district_info.getString("city");
 					county = district_info.getString("county");	
-				}catch(JSONException e){
+				}catch(Exception e){
 					e.printStackTrace();
 				}
 				placePoiid.setPlaceName(placeName);
@@ -67,7 +67,9 @@ public class PlacePoiidServiceImpl implements PlacePoiidService {
 				placePoiid.setProvince(province);
 				
 				if (placePoiid != null) {
-					poiidRepository.save(placePoiid);
+					if (poiidRepository.findByPoiId(placePoiid.getPoiId()) == null) {
+						poiidRepository.save(placePoiid);
+					}
 				}
 			}
 		}
