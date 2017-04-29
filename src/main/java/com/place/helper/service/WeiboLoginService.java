@@ -130,8 +130,6 @@ public class WeiboLoginService {
 		return false;
 	}
 	
-	//retcode=2070&reason=�������֤�벻��ȷ
-	//retcode=4049&reason=��Ҫ������֤��
 	public LoginStatus getLoginStatus(String entity, PreLoginInfo info){
 		if(entity.indexOf("code=0") == -1) {
 			String retcode = null;
@@ -196,7 +194,7 @@ public class WeiboLoginService {
 		valuePairs.add(new BasicNameValuePair("ssosimplelogin", "1"));
 		valuePairs.add(new BasicNameValuePair("vsnf", "1"));
 		valuePairs.add(new BasicNameValuePair("su", encodeUserName(username)));
-		//miniblog������΢���ķ�����
+
 		valuePairs.add(new BasicNameValuePair("service", "miniblog"));
 		valuePairs.add(new BasicNameValuePair("servertime", 1440473992 + ""));
 		valuePairs.add(new BasicNameValuePair("nonce", nonce));

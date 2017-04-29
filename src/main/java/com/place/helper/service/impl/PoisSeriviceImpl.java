@@ -22,7 +22,7 @@ public class PoisSeriviceImpl implements PoisSerivice {
 	private PlacePoisRepository poisRepository;
 	
 	public void savePoisz(String[] places) {
-		String urlStr = "https://api.weibo.com/2/place/pois/search.json?source=228094904&access_token=2.003NCcqB0EuD8P2c32ebc778EbpwkC&page=2&count=50&keyword=";
+		String urlStr = "https://api.weibo.com/2/place/pois/search.json?source=228094904&access_token=2.003NCcqB0EuD8P2c32ebc778EbpwkC&page=1&count=10&keyword=";
 		for (String place : places) {
 			try {
 				String placeName = URLEncoder.encode(place, "utf-8");

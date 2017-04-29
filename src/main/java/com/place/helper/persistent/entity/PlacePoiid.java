@@ -1,6 +1,6 @@
 package com.place.helper.persistent.entity;
 
-// Generated 2015-12-28 21:09:36 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-1-21 12:57:36 by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,7 +22,7 @@ public class PlacePoiid implements java.io.Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2916909160977585155L;
+	private static final long serialVersionUID = 6378492951877623596L;
 	private Integer id;
 	private PlacePois placePois;
 	private String poiId;
@@ -31,12 +31,15 @@ public class PlacePoiid implements java.io.Serializable {
 	private String province;
 	private String city;
 	private String county;
+	private String lat;
+	private String lon;
 
 	public PlacePoiid() {
 	}
 
 	public PlacePoiid(PlacePois placePois, String poiId, String placeName,
-			String country, String province, String city, String county) {
+			String country, String province, String city, String county,
+			String lat, String lon) {
 		this.placePois = placePois;
 		this.poiId = poiId;
 		this.placeName = placeName;
@@ -44,6 +47,8 @@ public class PlacePoiid implements java.io.Serializable {
 		this.province = province;
 		this.city = city;
 		this.county = county;
+		this.lat = lat;
+		this.lon = lon;
 	}
 
 	@Id
@@ -119,6 +124,24 @@ public class PlacePoiid implements java.io.Serializable {
 
 	public void setCounty(String county) {
 		this.county = county;
+	}
+
+	@Column(name = "lat", length = 64)
+	public String getLat() {
+		return this.lat;
+	}
+
+	public void setLat(String lat) {
+		this.lat = lat;
+	}
+
+	@Column(name = "lon", length = 64)
+	public String getLon() {
+		return this.lon;
+	}
+
+	public void setLon(String lon) {
+		this.lon = lon;
 	}
 
 }

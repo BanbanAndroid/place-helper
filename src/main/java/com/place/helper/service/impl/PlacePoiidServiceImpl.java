@@ -35,10 +35,17 @@ public class PlacePoiidServiceImpl implements PlacePoiidService {
 		
 		for (PlacePois placePois : placePoisz) {
 			String poisStr = placePois.getPlacePois();
-			JSONObject json = JSONObject.parseObject(poisStr);
-			JSONArray pois = json.getJSONArray("pois");
-			Iterator<?> iterator = pois.iterator();
-			
+			JSONObject json = null;
+			Iterator<?> iterator =null;
+			try{
+				json = JSONObject.parseObject(poisStr);
+				JSONArray pois = json.getJSONArray("pois");
+				iterator = pois.iterator();
+			}catch (Exception e){
+				e.printStackTrace();
+				return;
+			}
+
 			while (iterator.hasNext()) {
 				JSONObject placeBlock = (JSONObject)iterator.next();
 				String poiid = placeBlock.getString("poiid");
@@ -50,6 +57,8 @@ public class PlacePoiidServiceImpl implements PlacePoiidService {
 				String province = null;
 				String city = null;
 				String county = null;
+				String lat = null;
+				String lon = null;
 				try{
 					placeName = placeBlock.getString("title");
 					JSONObject district_info = placeBlock.getJSONObject("district_info");
@@ -57,6 +66,8 @@ public class PlacePoiidServiceImpl implements PlacePoiidService {
 					province = district_info.getString("province");
 					city = district_info.getString("city");
 					county = district_info.getString("county");	
+					lon = district_info.getString("lng");
+					lat = district_info.getString("lat");
 				}catch(Exception e){
 					e.printStackTrace();
 				}
@@ -65,6 +76,8 @@ public class PlacePoiidServiceImpl implements PlacePoiidService {
 				placePoiid.setCountry(country);
 				placePoiid.setCounty(county);
 				placePoiid.setProvince(province);
+				placePoiid.setLat(lat);
+				placePoiid.setLon(lon);
 				
 				if (placePoiid != null) {
 					if (poiidRepository.findByPoiId(placePoiid.getPoiId()) == null) {
